@@ -1,11 +1,13 @@
 {
-  "name": "tut3-node",
+  "name": "notes-app",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "rm -rf dist && npm run build && cp -r dist ./",
+    "deploy:full": "npm run build:ui && git add . && git commit -m 'UI build' && git push"
   },
   "keywords": [],
   "author": "",
