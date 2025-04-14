@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const cors = require('cors');
 const path = require('path'); // Include the 'path' module to handle file paths correctly
 
 let notes = [
@@ -32,7 +31,6 @@ const requestLogger = (request, response, next) => {
 
 app.use(express.json());
 app.use(requestLogger);
-app.use(cors());
 
 // Serve static files from the 'dist' directory
 app.use(express.static(path.join(__dirname, 'dist')));
