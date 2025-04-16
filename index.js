@@ -47,7 +47,7 @@ app.post('/api/notes', (request, response) => {
 });
 
 // Get SINGLE NOTE
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/notes/:id', (request, response, next) => {
   Note.findById(request.params.id)
     .then((note) => {
       if (note) {
@@ -56,18 +56,8 @@ app.get('/api/notes/:id', (request, response) => {
         response.status(404).end();
       }
     })
-    .catch((error) => {
-      console.log(error);
-      response.status(400).send({ error: 'malformatted id' });
-    });
+    .catch((error) => next(error));
 });
-
-// Function to generate a new ID
-const generateId = () => {
-  const maxId =
-    notes.length > 0 ? Math.max(...notes.map((n) => Number(n.id))) : 0;
-  return String(maxId + 1);
-};
 
 // Route for updating a note
 app.put('/api/notes/:id', (request, response) => {
@@ -101,8 +91,18 @@ app.delete('/api/notes/:id', (request, response) => {
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' });
 };
-
 app.use(unknownEndpoint);
+
+// Middleware for handling errors
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' });
+  }
+  next(error);
+};
+app.use(errorHandler);
 
 // Start the server on specified port
 const PORT = process.env.PORT;
