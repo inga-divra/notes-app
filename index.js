@@ -59,32 +59,33 @@ app.get('/api/notes/:id', (request, response, next) => {
     .catch((error) => next(error));
 });
 
-// Route for updating a note
-app.put('/api/notes/:id', (request, response) => {
-  const id = request.params.id;
-  const body = request.body;
+// UPDATE Note
+app.put('/api/notes/:id', (request, response, next) => {
+  const { content, important } = request.body;
 
-  const note = notes.find((note) => note.id === id);
+  Note.findById(request.params.id)
+    .then((note) => {
+      if (!note) {
+        return response.status(404).end();
+      }
 
-  if (!note) {
-    return response.status(404).json({
-      error: 'note not found',
-    });
-  }
+      note.content = content;
+      note.important = important;
 
-  note.content = body.content || note.content;
-  note.important =
-    body.important !== undefined ? body.important : note.important;
-
-  response.json(note);
+      return note.save().then((updatedNote) => {
+        response.json(updatedNote);
+      });
+    })
+    .catch((error) => next(error));
 });
 
-// Route for deleting a note
-app.delete('/api/notes/:id', (request, response) => {
-  const id = request.params.id;
-  notes = notes.filter((note) => note.id !== id);
-
-  response.status(204).end();
+// DELETE Note
+app.delete('/api/notes/:id', (request, response, next) => {
+  Note.findByIdAndDelete(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 // Middleware for handling unknown endpoints
