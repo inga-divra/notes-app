@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Note = require('./models/note');
 
 if (process.argv.length < 3) {
   console.log('give password as argument');
@@ -6,20 +7,10 @@ if (process.argv.length < 3) {
 }
 
 const password = process.argv[2];
-
 const url = `mongodb+srv://ingady:${password}@nodeexpressprojects.shkmp.mongodb.net/noteApp?retryWrites=true&w=majority&appName=NodeExpressProjects`;
 
 mongoose.set('strictQuery', false);
 mongoose.connect(url);
-
-// Define the schema for the note
-const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
-});
-
-// Create a model based on the note schema
-const Note = mongoose.model('Note', noteSchema);
 
 // Create a new note
 const note = new Note({
