@@ -1,33 +1,32 @@
-import globals from 'globals';
-import { defineConfig } from 'eslint/config';
-import js from '@eslint/js';
-import stylisticJs from '@stylistic/eslint-plugin-js';
+import globals from "globals";
+import { defineConfig } from "eslint/config";
+import js from "@eslint/js";
+import stylisticJs from "@stylistic/eslint-plugin-js";
 
 export default defineConfig([
   js.configs.recommended,
   {
-    files: ['**/*.js'],
+    files: ["**/*.js"],
     languageOptions: {
-      sourceType: 'commonjs',
+      sourceType: "commonjs",
     },
     plugins: {
-      '@stylistic/js': stylisticJs,
+      "@stylistic/js": stylisticJs,
     },
     rules: {
-      '@stylistic/js/indent': ['error', 2],
-      '@stylistic/js/linebreak-style': ['error', 'unix'],
-      '@stylistic/js/quotes': ['error', 'single'],
-      '@stylistic/js/semi': ['error', 'never'],
-      'linebreak-style': ['error', 'unix'],
+      "@stylistic/js/indent": ["error", 2],
+      "@stylistic/js/linebreak-style": ["error", "unix"],
+      "@stylistic/js/quotes": ["error", "single"],
+      "@stylistic/js/semi": ["error", "never"],
     },
   },
   {
-    files: ['**/*.{js,mjs,cjs}'],
+    files: ["**/*.{js,mjs,cjs}"],
     languageOptions: {
       globals: globals.node,
     },
   },
   {
-    ignores: ['dist/**'],
+    ignores: ["dist/**"],
   },
 ]);
