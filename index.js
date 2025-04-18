@@ -3,6 +3,10 @@ const express = require('express')
 const app = express()
 const path = require('path') // Include the 'path' module to handle file paths correctly
 const Note = require('./models/note')
+const config = require('./utils/logger')
+const logger = require('./utils/logger')
+
+logger.info(`Server running on port ${config.PORT}`)
 
 // Middleware
 app.use(express.json())

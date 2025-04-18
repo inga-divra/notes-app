@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf dist && npm run build && cp -r dist ./",
     "deploy:full": "npm run build:ui && git add . && git commit -m 'UI build' && git push",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lint:disable": "eslint --no-ignore"
   },
   "keywords": [],
   "author": "",
@@ -20,9 +21,6 @@
     "mongoose": "^8.13.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.24.0",
-    "@stylistic/eslint-plugin-js": "^4.2.0",
-    "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.2",
     "globals": "^16.0.0",
     "prettier": "^3.5.3"
