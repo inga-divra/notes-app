@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const path = require('path') // Include the 'path' module to handle file paths correctly
 const Note = require('./models/note')
-const config = require('./utils/logger')
+const config = require('./utils/config')
 const logger = require('./utils/logger')
 
 logger.info(`Server running on port ${config.PORT}`)
@@ -23,73 +23,6 @@ app.use(requestLogger)
 
 // Serve static files from the 'dist' directory
 app.use(express.static(path.join(__dirname, 'dist')))
-
-// Get ALL NOTES
-app.get('/api/notes', (request, response) => {
-  Note.find({}).then((notes) => {
-    response.json(notes)
-  })
-})
-
-// Create NEW NOTE
-app.post('/api/notes', (request, response, next) => {
-  const body = request.body
-
-  const note = new Note({
-    content: body.content,
-    important: body.important || false
-  })
-
-  note
-    .save()
-    .then((savedNote) => {
-      response.json(savedNote)
-    })
-
-    .catch((error) => next(error))
-})
-
-// Get SINGLE NOTE
-app.get('/api/notes/:id', (request, response, next) => {
-  Note.findById(request.params.id)
-    .then((note) => {
-      if (note) {
-        response.json(note)
-      } else {
-        response.status(404).end()
-      }
-    })
-    .catch((error) => next(error))
-})
-
-// UPDATE Note
-app.put('/api/notes/:id', (request, response, next) => {
-  const { content, important } = request.body
-
-  Note.findById(request.params.id)
-    .then((note) => {
-      if (!note) {
-        return response.status(404).end()
-      }
-
-      note.content = content
-      note.important = important
-
-      return note.save().then((updatedNote) => {
-        response.json(updatedNote)
-      })
-    })
-    .catch((error) => next(error))
-})
-
-// DELETE Note
-app.delete('/api/notes/:id', (request, response, next) => {
-  Note.findByIdAndDelete(request.params.id)
-    .then(() => {
-      response.status(204).end()
-    })
-    .catch((error) => next(error))
-})
 
 // Middleware for handling unknown endpoints
 const unknownEndpoint = (request, response) => {
