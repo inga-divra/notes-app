@@ -13,14 +13,22 @@ mongoose.set('strictQuery', false)
 mongoose.connect(url)
 
 // Create a new note
-const note = new Note({
+const note1 = new Note({
   content: 'HTML is easy',
   important: true
 })
 
-// Save the note to the database
-note.save().then(() => {
-  console.log('note saved!')
+const note2 = new Note({
+  content: 'Node.js is awesome',
+  important: true
+})
+
+// Save the notes to the database
+note1.save().then(() => {
+  console.log('first note saved!')
+
+  note2.save().then(() => {
+    console.log('second note saved!')
 
   // Fetch all notes from the database
   Note.find({}).then((result) => {
