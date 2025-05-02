@@ -7,6 +7,7 @@ const config = require('./utils/config')
 const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
 const notesRouter = require('./controllers/notes')
+const usersRouter = require('./controllers/users')
 
 const mongoose = require('mongoose')
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'dist')))
 
 // Routes
 app.use('/api/notes', notesRouter)
+app.use('/api/users', usersRouter)
 
 // Error handling
 app.use(middleware.unknownEndpoint)
