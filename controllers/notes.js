@@ -2,10 +2,9 @@ const notesRouter = require('express').Router()
 const Note = require('../models/note')
 
 // Get ALL NOTES
-notesRouter.get('/', (request, response) => {
-  Note.find({}).then((notes) => {
-    response.json(notes)
-  })
+notesRouter.get('/', async (request, response) => {
+  const notes = await Note.find({})
+  response.json(notes)
 })
 
 // Create NEW NOTE
@@ -20,7 +19,7 @@ notesRouter.post('/', (request, response, next) => {
   note
     .save()
     .then((savedNote) => {
-      response.json(savedNote)
+      response.status(201).json(savedNote)
     })
     .catch((error) => next(error))
 })
