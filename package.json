@@ -10,7 +10,7 @@
     "deploy:full": "npm run build:ui && git add . && git commit -m 'UI build' && git push",
     "lint": "eslint .",
     "lint:disable": "eslint --no-ignore",
-    "start:test": "NODE_ENV=test node index.js"
+    "start:test": "cross-env NODE_ENV=test node index.js"
   },
   "keywords": [],
   "author": "",
