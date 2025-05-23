@@ -9,7 +9,8 @@
     "build:ui": "rm -rf dist && npm run build && cp -r dist ./",
     "deploy:full": "npm run build:ui && git add . && git commit -m 'UI build' && git push",
     "lint": "eslint .",
-    "lint:disable": "eslint --no-ignore"
+    "lint:disable": "eslint --no-ignore",
+    "start:test": "NODE_ENV=test node index.js"
   },
   "keywords": [],
   "author": "",
