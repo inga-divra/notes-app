@@ -24,6 +24,12 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 app.use(express.static(path.join(__dirname, 'dist')))
 
+//Test router
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/testing')
+  app.use('/api/testing', testingRouter)
+}
+
 // Routes
 app.use('/api/notes', notesRouter)
 app.use('/api/users', usersRouter)
